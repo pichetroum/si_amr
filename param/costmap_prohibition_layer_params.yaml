@@ -1,0 +1,61 @@
+plugins:
+  - {name: static, type: "costmap_2d::StaticLayer"}
+  - {name: costmap_prohibition_layer, type: "costmap_prohibition_layer_namespace::CostmapProhibitionLayer"}
+  - {name: obstacle_layer, type: "costmap_2d::ObstacleLayer"}
+  - {name: inflation_layer, type: "costmap_2d::InflationLayer"}
+
+publish_frequency: 1.0
+
+costmap_prohibition_layer:
+  enabled: true
+  fill_polygons: true
+  prohibition_areas:
+    # Point
+    - [1.5, 1.5]  
+
+    # Line
+    - [ [1.5,1.5], [1.5,7] ]
+
+    # Polygon
+    - [ [1.5,1.5], 
+        [1.5,7],
+        [2.0,8],
+        [2.0,9] ]
+
+obstacle_layer:
+  #If the robot detects an obstacle closer than "obstacle_range", it will put
+  #the obstacle in the costmap.
+  obstacle_range: 15.0
+
+  #"raytrace_range" is used to clean/clear the costmap and update the free space
+  #in the costmap when the robot moves. 
+  raytrace_range: 20.0
+
+  #"footprint" is used to indicate the geometry of the robot to the navigation stack.
+  #It is used to keep the right distance between the obstacles and the robot,
+  #or to find out if the robot can go through a door.
+  ### robot_radius: 1.0
+  footprint: [[0.51,0.31],[0.51,-0.31],[-0.51,-0.31],[-0.51,0.31]]
+
+  #"inflation_radius" is the value given to keep a minimal distance between
+  #the geometry (footprint) of the robot and the obstacles.
+  #Set this factor to be bigger than robot radius.
+  inflation_radius: 4.0
+
+  #"cost_scaling_factor" modifies the behavior of the robot around the obstacles.
+  #You can make a behavior aggressive or conservative by changing the parameter.
+  #Set this factor to be smaller in order to far from obstacles.
+  # scaling
+  # exp(-1.0 * cost_scaling_factor *(distance_from_obstacle - inscribed_radius)) *(254 - 1)
+  cost_scaling_factor: 3.0
+
+  # select costmap to use between voxel(voxel-grid) and costmap(costmap_2d)
+  map_type: costmap
+
+  # tolerance of relative coordinate conversion time between tf
+  transform_tolerance: 0.2
+
+  # specify which sensor to use
+  observation_sources: scan
+  # set data type and topic, marking status, minimum obstacle for the laser scan
+  scan: {data_type: LaserScan, topic: scan, marking: true, clearing: true}

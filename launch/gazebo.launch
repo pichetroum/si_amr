@@ -1,6 +1,16 @@
 <launch>
-  <include
-    file="$(find gazebo_ros)/launch/empty_world.launch" />
+  <!--<include
+    file="$(find gazebo_ros)/launch/empty_world.launch" />-->
+
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name"    value="$(find si_amr)/worlds/si_amr_world.world"/>
+    <arg name="paused"        value="false"/>
+    <arg name="use_sim_time"  value="true"/>
+    <arg name="gui"           value="true"/>
+    <arg name="headless"      value="false"/>
+    <arg name="debug"         value="false"/>
+  </include>
+
   <node
     name="tf_footprint_base"
     pkg="tf"
@@ -10,7 +20,7 @@
     name="spawn_model"
     pkg="gazebo_ros"
     type="spawn_model"
-    args="-file $(find si_amr)/urdf/si_amr.urdf -urdf -model si_amr"
+    args="-file $(find si_amr)/urdf/si_amr.urdf -x 1.0 -y 15.0 -urdf -model si_amr"
     output="screen" />
   <node
     name="fake_joint_calibration"

@@ -1,0 +1,19 @@
+<launch>
+  <include file="$(find si_amr)/launch/gazebo.launch">
+  </include>
+
+  <include file="$(find si_amr)/launch/display.launch">
+  </include>
+
+  <include file="$(find ira_laser_tools)/launch/laserscan_multi_merger.launch">
+  </include>
+
+  <include file="$(find si_amr)/launch/map_server.launch">
+  </include>
+
+  <include file="$(find si_amr)/launch/amcl.launch">
+  </include>
+
+  <include file="$(find si_amr)/launch/move_base.launch">
+  </include>
+</launch>
